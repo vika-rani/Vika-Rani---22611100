@@ -1,44 +1,39 @@
 import streamlit as st
-import pickle
 import pandas as pd
+import numpy as np
+import pickle
 from sklearn.preprocessing import StandardScaler
 
-# Muat model
+# Memuat model dan scaler
 with open('model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-scaler = StandardScaler()
+with open('scaler.pkl', 'rb') as file:
+    scaler = pickle.load(file)
 
-st.title('Prediksi Tarif Uber')
+# Judul aplikasi
+st.title('Prediksi Harga/Tarif Uber')
 
-# Input Fitur
-year = st.number_input('Year', min_value=2000, max_value=2025, value=2023)
-month = st.number_input('Month', min_value=1, max_value=12, value=1)
-day = st.number_input('Day', min_value=1, max_value=31, value=1)
-hour = st.number_input('Hour', min_value=0, max_value=23, value=0)
-minute = st.number_input('Minute', min_value=0, max_value=59, value=0)
-second = st.number_input('Second', min_value=0, max_value=59, value=0)
-pickup_longitude = st.number_input('Pickup Longitude')
-pickup_latitude = st.number_input('Pickup Latitude')
-dropoff_longitude = st.number_input('Dropoff Longitude')
-dropoff_latitude = st.number_input('Dropoff Latitude')
+# Input pengguna
+pickup_longitude = st.number_input('Pickup Longitude', value=0.0)
+pickup_latitude = st.number_input('Pickup Latitude', value=0.0)
+dropoff_longitude = st.number_input('Dropoff Longitude', value=0.0)
+dropoff_latitude = st.number_input('Dropoff Latitude', value=0.0)
+passenger_count = st.number_input('Passenger Count', value=1)
 
-if st.button('Predict Fare'):
-    features = pd.DataFrame({
-        'year': [year],
-        'month': [month],
-        'day': [day],
-        'hour': [hour],
-        'minute': [minute],
-        'second': [second],
-        'pickup_longitude': [pickup_longitude],
-        'pickup_latitude': [pickup_latitude],
-        'dropoff_longitude': [dropoff_longitude],
-        'dropoff_latitude': [dropoff_latitude]
-    })
-    
-    # Skalakan fitur
-    features_scaled = scaler.transform(features)
-    prediction = model.predict(features_scaled)
-    
-    st.write(f'Predicted Fare: ${prediction[0]:.2f}')
+# Membuat dataframe dari input pengguna
+input_data = pd.DataFrame({
+    'pickup_longitude': [pickup_longitude],
+    'pickup_latitude': [pickup_latitude],
+    'dropoff_longitude': [dropoff_longitude],
+    'dropoff_latitude': [dropoff_latitude],
+    'passenger_count': [passenger_count]
+})
+
+# Pra-pemrosesan input pengguna
+input_data_scaled = scaler.transform(input_data)
+
+# Prediksi
+if st.button('Prediksi Tarif'):
+    prediction = model.predict(input_data_scaled)
+    st.write(f'Prediksi Tarif: ${prediction[0]:.2f}')
