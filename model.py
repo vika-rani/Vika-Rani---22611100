@@ -37,13 +37,13 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, 
 with open('scaler.pkl', 'wb') as file:
     pickle.dump(scaler, file)
 
+
 # Pelatihan Model
 models = {
     'Linear Regression': LinearRegression(),
     'Decision Tree': DecisionTreeRegressor(random_state=42),
     'Random Forest': RandomForestRegressor(n_estimators=100, random_state=42),
-    'SVR': SVR(C=0.1, epsilon=0.2, gamma=0.01),
-    'Linear SVR': LinearSVR(C=1.0, max_iter=10000, random_state=42)
+    'SVR': SVR(C=0.1, epsilon=0.2, gamma=0.01)
 }
 
 best_model_name = ''

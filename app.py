@@ -21,7 +21,7 @@ dropoff_longitude = st.number_input('Dropoff Longitude', value=0.0)
 dropoff_latitude = st.number_input('Dropoff Latitude', value=0.0)
 passenger_count = st.number_input('Passenger Count', value=1)
 
-# Input waktu (hardcoded untuk demonstrasi)
+# Input waktu
 year = st.number_input('Year', value=2021)
 month = st.number_input('Month', value=1, min_value=1, max_value=12)
 day = st.number_input('Day', value=1, min_value=1, max_value=31)
