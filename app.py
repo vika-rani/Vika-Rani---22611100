@@ -21,13 +21,27 @@ dropoff_longitude = st.number_input('Dropoff Longitude', value=0.0)
 dropoff_latitude = st.number_input('Dropoff Latitude', value=0.0)
 passenger_count = st.number_input('Passenger Count', value=1)
 
+# Input waktu (hardcoded untuk demonstrasi)
+year = st.number_input('Year', value=2021)
+month = st.number_input('Month', value=1, min_value=1, max_value=12)
+day = st.number_input('Day', value=1, min_value=1, max_value=31)
+hour = st.number_input('Hour', value=0, min_value=0, max_value=23)
+minute = st.number_input('Minute', value=0, min_value=0, max_value=59)
+second = st.number_input('Second', value=0, min_value=0, max_value=59)
+
 # Membuat dataframe dari input pengguna
 input_data = pd.DataFrame({
     'pickup_longitude': [pickup_longitude],
     'pickup_latitude': [pickup_latitude],
     'dropoff_longitude': [dropoff_longitude],
     'dropoff_latitude': [dropoff_latitude],
-    'passenger_count': [passenger_count]
+    'passenger_count': [passenger_count],
+    'year': [year],
+    'month': [month],
+    'day': [day],
+    'hour': [hour],
+    'minute': [minute],
+    'second': [second]
 })
 
 # Pra-pemrosesan input pengguna
