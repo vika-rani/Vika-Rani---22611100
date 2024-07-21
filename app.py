@@ -4,12 +4,15 @@ import numpy as np
 import pickle
 from sklearn.preprocessing import StandardScaler
 
-# Memuat model dan scaler
+# Memuat model, scaler, dan fitur
 with open('model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 with open('scaler.pkl', 'rb') as file:
     scaler = pickle.load(file)
+
+with open('features.pkl', 'rb') as file:
+    features = pickle.load(file)
 
 # Judul aplikasi
 st.title('Prediksi Harga/Tarif Uber')
@@ -43,6 +46,14 @@ input_data = pd.DataFrame({
     'minute': [minute],
     'second': [second]
 })
+
+# Menambahkan kolom yang mungkin hilang dengan nilai default 0
+for feature in features:
+    if feature not in input_data.columns:
+        input_data[feature] = 0
+
+# Urutkan kolom sesuai dengan fitur yang digunakan saat pelatihan
+input_data = input_data[features]
 
 # Pra-pemrosesan input pengguna
 input_data_scaled = scaler.transform(input_data)
